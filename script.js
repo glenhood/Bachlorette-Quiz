@@ -1,53 +1,128 @@
-var startButton = document.getElementById('start-btn')
+// var answerButtonsElement = document.getElementById('answer-buttons')
+
+// create var questions
+var quizQuestions = [
+    {
+      title: "Commonly used data types DO NOT include:",
+      choices: ["strings", "booleans", "alerts", "numbers"],
+      answer: "alerts"
+    },
+    {
+      title: "The condition in an if / else statement is enclosed within ____.",
+      choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+      answer: "parentheses"
+    },
+    {
+      title: "Arrays in JavaScript can be used to store ____.",
+      choices: [
+        "numbers and strings",
+        "other arrays",
+        "booleans",
+        "all of the above"
+      ],
+      answer: "all of the above"
+    },
+    {
+      title:
+        "String values must be enclosed within ____ when being assigned to variables.",
+      choices: ["commas", "curly brackets", "quotes", "parentheses"],
+      answer: "quotes"
+    },
+    {
+      title:
+        "A very useful tool used during development and debugging for printing content to the debugger is:",
+      choices: ["JavaScript", "terminal / bash", "for loops", "console.log"],
+      answer: "console.log"
+    }
+  ];
+var timeState;
+var quizQuestionIndex = 0;
+var time = quizQuestions.length * 10
+var timerEl = document.querySelector('.timer')
+
+var startButton = document.getElementById('start')
 var nextButton = document.getElementById('next-btn')
 var questionContainerElement = document.getElementById('question-container')
 var questionElement = document.getElementById('question')
-var answerButtonsElement = document.getElementById('answer-buttons')
-var buttonOne = document.getElementById('btn1')
-var buttonTwo = document.getElementById('btn2')
-var buttonThree = document.getElementById('btn3')
-var buttonFour = document.getElementById('btn4')
+var submitButton = document.getElementById('submit-btn')
+var answerButtonsElement = document.getElementById("answer-buttons")
 
-// create var questions
-var questionBootstrap = {
-    question: 'What is a popular Third Party API used for styling websites?',
-    answer1: 'Cats Pajamas',
-    answer2: 'Bootstrap',   
-    answer3: 'Strapboot',
-    answer4: 'CSSSSSSSS',
+
+
+
+// add decrement function
+function decrementTime() {
+    time --;
+    timerEl.textContent = time
+    if (time == 0) {
+    console.log("quiz is over");
+    }
 }
-console.log(questionBootstrap);
+function startGame() {
+    var startScreen = document.getElementById('start-screen')
+    startScreen.setAttribute("class", "hide")
+    questionContainerElement.removeAttribute("class")
+    timeState = setInterval(decrementTime, 1000);
 
-var questionjQuery = {
-    question: 'What is a popular Third Party API used for alternate JavaScript code?',
-    answer1: 'Kung Fu',
-    answer2: 'Matthew McConaughey',
-    answer3: 'Jay Leno',
-    answer4: 'jQuery',
+timerEl.textContent = time;
+getQuestion()
+
 }
+function getQuestion() {
+    
+    
+    var displayQuestion = quizQuestions[quizQuestionIndex]
+    questionElement.textContent = displayQuestion.title
+    answerButtonsElement.innerHTML = ""
+    displayQuestion.choices.forEach(function(choice){
+    
+    
+    
+    var answerChoice = document.createElement("button")
+    answerChoice.setAttribute("class", "choice")
+    answerChoice.setAttribute("value", choice)
+    console.log(choice)
+    answerChoice.textContent = choice
 
-var questionCSS = {
-    question: 'What is a file type used mainly only to style an HTML page?',
-    answer1: 'CSS',
-    answer2: 'CASS',
-    answer3: 'CASSY FRASS',
-    answer4: 'CIA',
+    // call check for answer
+    answerChoice.onclick = checkForAnswer
+    answerButtonsElement.appendChild(answerChoice)
+    })
+
+
+
 }
+function checkForAnswer() {
+    if (this.value !== quizQuestions[quizQuestionIndex].answer)
+    {   time = time - 5
+        console.log("incorrect")
+        console.log(quizQuestions[quizQuestionIndex].answer)
 
-var questionJavaScript = {
-    question: 'What coding language is currently the bane of my existence?',
-    answer1: 'Not JavaScript',
-    answer2: 'JavaScrpt',
-    answer3: 'Not JavaScript',
-    answer4: 'Not JavaScript',
+    }else{
+        console.log("correct")
+    }
+    quizQuestionIndex++
+    if (quizQuestionIndex === quizQuestions.length) {
+        quizEnd()
+    }else{
+        getQuestion()
+    }
+    
+
 }
+function quizEnd() {
+    clearInterval(timeState)
+}
+// hide questions
 
-var questionAnswerArray = [questionBootstrap, questionjQuery, questionCSS, questionJavaScript];
-var correctAnswerArray = [questionAnswerArray[0].answer2, questionAnswerArray[1].answer4, questionAnswerArray[2].answer1, questionAnswerArray[3].answer2];
 
-console.log(correctAnswerArray)
+// add/get question function
+// add function to check right or wrong answer
+// add quiz ending function
+// add function to save to local storage / submit button / click
 
 
 // create highscores tab and time in header?
 
 // create start button in order for the game to start
+startButton.onclick = startGame;
