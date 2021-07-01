@@ -111,7 +111,6 @@ function checkAnswer(answer) {
         totalTime -= 10;
         timeLeft.textContent = totalTime;
         answerCheck.textContent = "Woops! Try again!";
-        answerCheck.setAttribute("style", "color: #ffff00")
     }
 
     questionIndex++;
