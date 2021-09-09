@@ -1,4 +1,4 @@
-Coding Quiz!
+Bachlorette Quiz!
 
 https://glenhood.github.io/Bachlorette-Quiz/
 
